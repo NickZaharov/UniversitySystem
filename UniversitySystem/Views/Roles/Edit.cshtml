@@ -1,0 +1,33 @@
+﻿<div class="blur"></div>
+<h2>Изменение ролей для пользователя</h2>
+
+<div>
+    @foreach (var item in ViewBag.User)
+    {
+        <h3>Пользователь: @item.UserName</h3>
+    }
+        <form asp-action="EditRoles" asp-route-id=@ViewBag.Id method="post">
+            @foreach (var role in ViewBag.Roles)
+            {
+                ViewBag.i = 0;
+                foreach (var UserRole in ViewBag.Check)
+                {
+                    if (role.Id == UserRole.RoleId)
+                    {
+                        <input type="checkbox" name="RoleId" value=@role.Id checked="checked" />@role.Name <br />
+                        ViewBag.i = 1;
+                    }
+                }
+                if (ViewBag.i == 0)
+                {
+                    <input type="checkbox" name="RoleId" value=@role.Id />@role.Name <br />
+                }
+            }
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+    </div>
+<div style="margin-top:6px;">
+    <form asp-action="Index">
+        <button type="submit" class="btn btn-primary">Отмена</button>
+    </form>
+</div>

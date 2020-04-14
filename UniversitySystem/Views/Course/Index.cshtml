@@ -1,0 +1,92 @@
+﻿@model IEnumerable<UniversitySystem.Course>
+
+
+<div class="modal-content body-content">
+    @if (ViewBag.authorized == 0)
+    {
+        <h2>Данный пользователь не имеет прав доступа</h2>
+        <hr />
+    }
+    else
+    {
+        if (ViewBag.Count == 0)
+        {
+            <div class="option-row">
+                <span class="link-opacity">
+                    <img src="~/svg-icons/plus-circle.svg" />
+                    <a asp-action="Create">Создать курс</a>
+                </span>
+            </div>
+            <hr />
+            <h3>У вас нет действующих курсов</h3>
+        }
+        else
+        {
+            if (ViewBag.Authorized == 1)
+            {
+                <div class="option-row">
+                    <a asp-action="Create" class="row-pos a-normal" style="padding-top:24px;">
+                        <img src="~/svg-icons/plus-circle.svg" />
+                        Создать курс
+                    </a>
+                </div>
+            }
+            <div class="option-row">
+                <div class="form-group">
+                    <form asp-action="Index" method="get">
+                        
+                            <select id="visible" name="group" class="list-group-item row-right option-select select-hiden">
+                                <option value=""></option>
+                                @foreach (var item in ViewBag.groups)
+                                {
+                                    <option value="@item.Name">@item.Name</option>
+                                }
+                            </select>
+                        <button type="submit" class="btn-anim btn" onclick="">Применить</button>
+                    </form>
+                </div>
+            </div>
+            <hr />
+            foreach (var item in Model)
+            {
+                <div class="div-box-back">
+                    <div class="div-box" onclick="window.location='@Url.Action("Edit", "Course", new { id = item.CourseId })'">
+                        <div class="div-header">
+                            <span class="navbar-link">@Html.DisplayFor(modelItem => item.Subject.Name)</span>
+                        </div>
+                        <div class="div-body">
+                            <img src="~/images/course.png" style="position:relative; width:100%; opacity:0.7" />
+                        </div>
+                        <div class="div-footer">
+                            <span>
+                                @Html.DisplayFor(modelItem => item.Teacher.Name)
+                                @Html.DisplayFor(modelItem => item.Teacher.Surname)
+                            </span>
+                        </div>
+                        <div class="div-circle">
+                            <span style="color: white">
+                                @Html.DisplayFor(modelItem => item.Faculty.Name)<br />
+                                @Html.DisplayFor(modelItem => item.Group.Name)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>
+
+@section scripts
+{ 
+    <script>
+        function OptionChanged() {
+            if (document.getElementById('option').selected) {
+                document.getElementById('visible').classList.add("select-visible");
+            }
+            else {
+                document.getElementById('visible').classList.remove("select-visible");
+            }
+        }
+        }
+    </script>
+}

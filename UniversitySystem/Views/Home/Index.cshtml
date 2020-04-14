@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="body-content modal-content">
+        <h2>Главная страница</h2>
+        <hr />
+        @if (ViewBag.authorize != 0)
+        {
+        <h3>Для админов</h3>
+        <a asp-area="" asp-controller="Roles" asp-action="Index">Просмотр пользователей</a><br />
+        <a asp-area="" asp-controller="Faculties" asp-action="Index">Просмотр факультетов</a><br />
+        <a asp-area="" asp-controller="Groups" asp-action="Index">Просмотр Групп</a><br />
+        <a asp-area="" asp-controller="Subjects" asp-action="Index">Просмотр дисциплин</a><br />
+        <a asp-area="" asp-controller="Students" asp-action="Index">Просмотр студентов</a><br />
+        <a asp-area="" asp-controller="Teachers" asp-action="Index">Просмотр преподавателей</a><br />
+        }
+    </div>

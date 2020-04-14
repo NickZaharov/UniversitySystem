@@ -1,0 +1,33 @@
+﻿@{
+   ViewData["Title"] = ViewBag.Course.Subject.Name + ", " + ViewBag.Course.Group.Name + "(" + ViewBag.Course.Faculty.Name+")";
+}
+
+<div class="container navbar-left">
+    <div class="row">
+        <ul class="nav">
+            <li class="nav-item navbar-left-label">
+                <span style="font-size: 18px; color:white; border-bottom: 3px solid white; padding-top: 10px">
+                  @ViewData["Title"]  
+                </span>
+            </li>
+            <li class="nav-item navbar-left-li">
+                <span class="nav-link active" onclick="">
+                    <img src="~/svg-icons/menu.svg">
+                    Лента
+                </span>
+            </li>
+            <li class="nav-item navbar-left-li">
+                <span class="nav-link" onclick="window.location='@Url.Action("Edit", "Course",new {id = ViewBag.Course.CourseId })'">
+                    <img src="~/svg-icons/clipboard.svg">
+                    Журнал
+                </span>
+            </li>
+            <li class="nav-item navbar-left-li">
+                <span class="nav-link" onclick="window.location='@Url.Action("Members", "Course",new {id = ViewBag.Course.CourseId })'">
+                    <img src="~/svg-icons/users.svg">
+                    Пользователи
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>

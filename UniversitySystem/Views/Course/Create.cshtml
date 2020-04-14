@@ -1,0 +1,34 @@
+﻿@model UniversitySystem.Course
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="blur"></div>
+<h2>Create</h2>
+@if(ViewBag.warning == 1)
+{
+    <span style="color: red; font-size:20px">Курс с такими параметрами уже создан!</span>
+}
+<div class="form-row align-items-center">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-route-id="@ViewBag.TeacherId">
+            <div class="form-group">
+                <label asp-for="Subject" class="control-label"></label>
+                <select asp-for="SubjectId" class="form-control" asp-items="ViewBag.SubjectId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Faculty" class="control-label"></label>
+                <select asp-for="FacultyId" class="form-control" asp-items="ViewBag.FacultyId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Group" class="control-label"></label>
+                <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="">Создать</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

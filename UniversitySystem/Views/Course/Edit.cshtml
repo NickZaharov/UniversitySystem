@@ -1,0 +1,132 @@
+﻿@model List<UniversitySystem.Rating>
+
+@{int i = 0;}
+
+<partial>
+    @Html.Partial("PanelPartial")
+</partial>
+<div class="page-part">
+    <div class="link-opacity" style="cursor: pointer; width:132px;" onclick="window.location='@Url.Action("genExcel", "Course", new { id = ViewBag.Id})'">
+    <img src="~/svg-icons/copy.svg" /> Создать отчет</div>
+    @if (ViewBag.authorized == 1)
+    {
+    <div id="add-event">
+        <span class="link-opacity row-pos" style="cursor:pointer">
+            <img src="~/svg-icons/folder-plus.svg" />
+            Добавить событие
+        </span>
+    </div>
+    <a asp-action="DelCourse" asp-route-id="@ViewBag.Id" class="a-normal">
+        <img src="~/svg-icons/x-circle.svg" />
+        Удалить курс
+    </a>
+    }
+    <hr />
+    <div class="modal-content scroll-table">
+        <div class="table-responsive">
+            <form asp-action="EditRating" asp-route-id="@ViewBag.Id">
+                <table class="table table-striped log-table" style="font-weight:500; overflow:auto;">
+                    @if (ViewBag.Logs.Count == 0)
+                    {
+                        <thead class="thead-fixed">
+                            <tr><th style="padding-left:20vh;">У вас нет ни одного события</th></tr>
+                        </thead>
+                    }
+                    else
+                    {
+                        <thead class="thead-fixed">
+                            <tr>
+                                <th></th>
+                                @foreach (var item in ViewBag.logs)
+                                {
+                                <th class="th-scroll">
+                                    @item.Title
+                                    @if (ViewBag.authorized == 1)
+                                    {
+                                        <img class="svg-back" src="~/svg-icons/x.svg" onclick="window.location='@Url.Action("DelLog", "Course", new { id = ViewBag.Id, LogId = item.LogId })'" />
+                                    }
+                                </th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.students)
+                            {
+                                <tr>
+                                    <td class="td-line">
+                                        @item.Name @item.Surname
+                                    </td>
+                                    @foreach (var item2 in ViewBag.ratings)
+                                    {
+                                        if (item2.StudentId == item.StudentId)
+                                        {
+                                            @if (ViewBag.authorized == 1)
+                                            {
+                                                <td>
+                                                    <input maxlength="10" class="input-table" asp-for="@Model[i].Value" value="@item2.Value" />
+                                                    <input style="display:none" asp-for="@Model[i].StudentId" value="@item2.StudentId" />
+                                                    <input style="display:none" asp-for="@Model[i].RatingId" value="@item2.RatingId" />
+                                                    <input style="display:none" asp-for="@Model[i].LogId" value="@item2.LogId" />
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <input readonly maxlength="10" class="input-table" asp-for="@Model[i].Value" value="@item2.Value" />
+                                                    <input style="display:none" asp-for="@Model[i].StudentId" value="@item2.StudentId" />
+                                                    <input style="display:none" asp-for="@Model[i].RatingId" value="@item2.RatingId" />
+                                                    <input style="display:none" asp-for="@Model[i].LogId" value="@item2.LogId" />
+                                                </td>
+                                            }
+                                            i++;
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+                @if (ViewBag.authorized == 1)
+                {
+                    <button class="btn-save" type="submit" onclick="Submit()">Сохранить</button>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="eventModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form asp-action="CreateEvent" asp-route-id="@ViewBag.Id">
+                    <label>Введите название нового события</label>
+                    <input class="form-control input-modal" maxlength="20" placeholder="Enter event title" required type="text" name="name" />
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <script>
+        $.ajaxSetup({ cache: false });
+        $(function () {
+            $("#add-event").click(function () {
+                $("#eventModal").modal('show');
+            });
+        });
+
+        function Submit() {
+            let form = document.createElement('form');
+            form.method = 'GET';
+            document.body.append(form);
+            form.submit();
+        }
+    </script>
+}

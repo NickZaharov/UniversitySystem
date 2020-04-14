@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Пользователи";
+}
+
+<div class="blur"></div>
+
+<h2>@ViewBag.Title</h2>
+<div>
+    <ol>
+        @foreach (var item in ViewBag.Users)
+        {
+            <li>@item.UserName
+        <form class="form-group" asp-action="Edit" asp-route-id="@item.Id">
+    <button type="submit" class="btn btn-primary">Изменить права доступа</button>
+        </form>
+        </li>       
+                }
+        </ol>
+</div>
+
